@@ -1,12 +1,9 @@
-const exp = require("express");
-const app = exp();
-const test = exp();
+const express = require("express");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-app.get("/", (req, res) => {
-  res.send({ bye: "buddy" });
-});
+const app = express();
 
-const PORT = process.env.PORT || 5001; //Enverment Varialbes which is find port number at Heroku or production. get 5001 port number for
-// Dev enverment.
-//app.listen(5001);
+const PORT = process.env.PORT || 5001;
+
 app.listen(PORT);
