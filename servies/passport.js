@@ -52,8 +52,7 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL:
-        "https://stark-dusk-25108.herokuapp.com//auth/google/callback"
+      callbackURL: "https://stark-dusk-25108.herokuapp.com/auth/google/callback"
       //proxy: true
     },
 
