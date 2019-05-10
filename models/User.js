@@ -3,8 +3,9 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   ProfileId: String,
-  displayName: String,
-  Provider: String
+  DisplayName: String,
+  Provider: String,
+  EmailId: String
 });
 
 mongoose.model("users", userSchema);
