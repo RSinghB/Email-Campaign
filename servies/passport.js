@@ -27,7 +27,7 @@ passport.use(
     (accessToken, refreshToken, profile, done) => {
       // console.log("Accesss Token ", accessToken);
       // console.log("Refresh Tonken ", refreshToken);
-      console.log("Facebook Profile ", profile);
+      // console.log("Facebook Profile ", profile);
 
       User.findOne({ ProfileId: profile.id }).then(existingUser => {
         if (existingUser) {
@@ -59,7 +59,7 @@ passport.use(
     (accessToken, refreshToken, profile, done) => {
       // console.log("Accesss Token ", accessToken);
       // console.log("Refresh Tonken ", refreshToken);
-      console.log("Google Profile ", profile);
+      // console.log("Google Profile ", profile);
 
       User.findOne({ ProfileId: profile.id }).then(existingUser => {
         if (existingUser) {
