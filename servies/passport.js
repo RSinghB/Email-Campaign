@@ -24,25 +24,22 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // console.log("Accesss Token ", accessToken);
       // console.log("Refresh Tonken ", refreshToken);
       // console.log("Facebook Profile ", profile);
 
-      User.findOne({ ProfileId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-          // console.log("Facebook Id is already exist ", profile.id);
-        } else {
-          new User({
-            ProfileId: profile.id,
-            DisplayName: profile.displayName,
-            Provider: profile.provider
-          })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+      const existingUser = await User.findOne({ ProfileId: profile.id });
+      if (existingUser) {
+        return done(null, existingUser);
+        // console.log("Facebook Id is already exist ", profile.id);
+      }
+      const user = new User({
+        ProfileId: profile.id,
+        DisplayName: profile.displayName,
+        Provider: profile.provider
+      }).save();
+      done(null, user);
     }
   )
 );
@@ -56,26 +53,25 @@ passport.use(
       proxy: true
     },
 
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // console.log("Accesss Token ", accessToken);
       // console.log("Refresh Tonken ", refreshToken);
       // console.log("Google Profile ", profile);
 
-      User.findOne({ ProfileId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-          // console.log("Google ID is already exist ", profile.id);
-        } else {
-          new User({
-            ProfileId: profile.id,
-            DisplayName: profile.displayName,
-            Provider: profile.provider,
-            EmailId: profile.emails[0].value
-          })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+      const existingUser = await User.findOne({ ProfileId: profile.id });
+      if (existingUser) {
+        // We already have a record with the given profile ID
+        return done(null, existingUser);
+        // console.log("Google ID is already exist ", profile.id);
+      }
+      // We don't have a user record with thid ID, make a new record!
+      const user = await new User({
+        ProfileId: profile.id,
+        DisplayName: profile.displayName,
+        Provider: profile.provider,
+        EmailId: profile.emails[0].value
+      }).save();
+      done(null, user);
     }
   )
 );
